@@ -1,0 +1,40 @@
+# R specific
+.Rproj.user
+.Rhistory
+.RData
+.Renviron
+.Rprofile.user
+
+# Output files
+03_output/
+*.html
+*.pdf
+
+# Data (if large or sensitive, otherwise consider versioning small data)
+# 01_data/01_raw/
+# 01_data/02_processed/
+
+# Models (often large)
+04_models/
+
+# Package specific (if you build packages within the project)
+/*.tar.gz
+/*.Rcheck/
+*.so
+*.dll
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Log files
+*.log 
