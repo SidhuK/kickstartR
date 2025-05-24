@@ -1,0 +1,225 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Documentation and Examples Standards
+
+Comprehensive documentation guidelines for the kickstartR package.
+
+## Roxygen2 Documentation Standards
+
+### Function Documentation Template
+
+```r
+#' Initialize a New Project with Boilerplate Structure
+#'
+#' This function creates a standard directory structure for a new R project,
+#' including data, scripts, output, and optional model/notebook directories.
+#' It also generates template files like README.md, .gitignore, and a main
+#' analysis script.
+#'
+#' @param project_name Character string. The name of the project. This will be
+#'   the name of the main project directory.
+#' @param path Character string. The path where the project directory should be
+#'   created. Defaults to the current working directory (".").
+#' @param overwrite Logical. If TRUE, and a directory with `project_name`
+#'   already exists, it will be overwritten (use with caution). Defaults to FALSE.
+#' @param create_rproj Logical. If TRUE, creates an RStudio project file (.Rproj).
+#'   Defaults to TRUE.
+#' @param include_models Logical. If TRUE, includes a '04_models' folder for
+#'   storing model objects. Defaults to TRUE.
+#' @param include_notebooks Logical. If TRUE, includes a '05_notebooks' folder
+#'   for R Markdown and other notebook files. Defaults to TRUE.
+#'
+#' @return Invisibly returns the path to the created project directory.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Create a project named "MyAnalysis" in the current directory
+#' initialize_project("MyAnalysis")
+#'
+#' # Create a project in a specific path
+#' temp_dir <- tempdir()
+#' initialize_project("MyTestProject", path = temp_dir)
+#' 
+#' # Create a minimal project without models and notebooks
+#' initialize_project("MinimalProject", 
+#'                   include_models = FALSE,
+#'                   include_notebooks = FALSE)
+#'
+#' # Clean up example (don't include in actual examples)
+#' unlink(file.path(temp_dir, "MyTestProject"), recursive = TRUE)
+#' }
+```
+
+### Documentation Requirements
+
+1. **Title**: Clear, concise function title
+2. **Description**: Detailed explanation of what the function does
+3. **Parameters**: Complete `@param` documentation for each parameter
+   - Include data type (character, logical, numeric)
+   - Explain what the parameter controls
+   - Include default values where applicable
+4. **Return Value**: Clear `@return` description
+5. **Examples**: Practical, executable examples using `\dontrun{}`
+6. **Export**: Include `@export` for user-facing functions
+
+## README.md Standards
+
+The package README should include:
+
+### Essential Sections
+
+1. **Package Title and Description**
+   - Clear tagline explaining the package purpose
+   - Brief overview of functionality
+
+2. **Installation Instructions**
+   ```r
+   # Install from GitHub
+   devtools::install_github("username/kickstartR")
+   ```
+
+3. **Quick Start Example**
+   - Simple, copy-pasteable example
+   - Show the most common use case
+
+4. **Detailed Usage Examples**
+   - Multiple scenarios with different parameters
+   - Explanation of the created directory structure
+
+5. **Project Structure Visualization**
+   - ASCII tree showing the created structure
+   - Explanation of each directory's purpose
+
+6. **Best Practices and Workflow**
+   - Recommended usage patterns
+   - Integration with other tools (here package, renv, etc.)
+
+### Code Example Format
+
+```r
+library(kickstartR)
+
+# Basic usage
+initialize_project("MyAnalysisProject")
+
+# Advanced usage with custom options
+initialize_project("DataAnalysis2024",
+                   path = "~/Projects",
+                   include_models = TRUE,
+                   include_notebooks = FALSE,
+                   create_rproj = TRUE)
+```
+
+## Vignette Standards
+
+Create comprehensive vignettes in the `vignettes/` directory:
+
+### Main Vignette Structure
+
+1. **Introduction**
+   - Problem this package solves
+   - Target audience
+
+2. **Getting Started**
+   - Installation
+   - Basic usage
+
+3. **Detailed Examples**
+   - Step-by-step workflows
+   - Multiple scenarios
+
+4. **Best Practices**
+   - Recommended project organization
+   - Integration with other tools
+
+5. **Customization**
+   - How to modify templates
+   - Extending functionality
+
+### Vignette Code Style
+
+```r
+# Always include library call
+library(kickstartR)
+
+# Use realistic project names
+initialize_project("CustomerSegmentationAnalysis")
+
+# Show directory structure after creation
+list.files("CustomerSegmentationAnalysis", recursive = TRUE)
+```
+
+## pkgdown Configuration
+
+The `_pkgdown.yml` should include:
+
+```yaml
+template:
+  bootstrap: 5
+
+reference:
+  - title: "Project Initialization"
+    desc: "Functions for creating new project structures"
+    contents:
+      - initialize_project
+
+articles:
+  - title: "Getting Started"
+    navbar: "Getting Started"
+    contents:
+      - getting-started
+  - title: "Advanced Usage"
+    navbar: "Advanced"
+    contents:
+      - customization
+      - best-practices
+
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials, news]
+    right: [search, github]
+```
+
+## Example Standards
+
+### Documentation Examples
+
+1. **Use `\dontrun{}`** for examples that create files/directories
+2. **Include cleanup code** (commented out) to show best practices
+3. **Show realistic use cases** with meaningful project names
+4. **Demonstrate parameter variations** to show flexibility
+
+### Vignette Examples
+
+1. **Complete workflows** from start to finish
+2. **Real-world scenarios** (e.g., "Setting up a data analysis project")
+3. **Integration examples** with other R packages (here, renv, usethis)
+4. **Troubleshooting** common issues
+
+## Help File Generation
+
+Ensure proper help file generation:
+
+```r
+# Update documentation
+devtools::document()
+
+# Check documentation
+devtools::check_man()
+
+# Build and preview site
+pkgdown::build_site()
+```
+
+## Reference Files
+
+Key documentation files:
+- Package README: [README.md](mdc:README.md)
+- Package description: [DESCRIPTION](mdc:DESCRIPTION)
+- pkgdown config: [_pkgdown.yml](mdc:_pkgdown.yml)
+- Main function: [R/initialize_project.R](mdc:R/initialize_project.R)

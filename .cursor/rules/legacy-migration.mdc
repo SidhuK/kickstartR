@@ -1,0 +1,89 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Legacy .cursorrules Migration
+
+Guidelines for migrating from legacy .cursorrules format to the new .cursor/rules structure.
+
+## Current State
+
+This project has a legacy `.cursorrules/` directory that contains:
+- [.cursorrules/tasks.md](mdc:.cursorrules/tasks.md) - Contains development notes and requirements
+
+## Migration Strategy
+
+### 1. Content Review
+Review the existing `.cursorrules/tasks.md` to identify:
+- Development requirements and specifications
+- Design decisions and architectural notes
+- TODO items and feature requests
+- Documentation that should be preserved
+
+### 2. Extract Relevant Information
+
+From the legacy file, extract:
+- **Requirements**: Convert to GitHub issues or documentation
+- **Development notes**: Integrate into package documentation
+- **Code examples**: Move to vignettes or README
+- **Best practices**: Integrate into the new rule system
+
+### 3. Cleanup Process
+
+After migration:
+1. Move important content to appropriate locations:
+   - Development notes → `docs/` or vignettes
+   - Requirements → GitHub issues
+   - Examples → README or vignettes
+   
+2. Remove the legacy `.cursorrules/` directory:
+   ```bash
+   rm -rf .cursorrules/
+   ```
+
+3. Update `.gitignore` to exclude legacy format:
+   ```gitignore
+   .cursorrules/
+   ```
+
+## New Rule Structure Benefits
+
+The new `.cursor/rules/` structure provides:
+
+1. **Better Organization**: Multiple focused rule files instead of one large file
+2. **Conditional Application**: Rules can be applied based on file patterns
+3. **Version Control**: Rules are properly tracked and documented
+4. **AI Integration**: Better integration with Cursor's AI features
+5. **Team Sharing**: Easier to share and maintain across team members
+
+## Current Rules Implementation
+
+The project now has comprehensive rules covering:
+
+- **R Package Development Standards**: [r-package-development.mdc](mdc:.cursor/rules/r-package-development.mdc)
+- **Project Structure Templates**: [project-structure-templates.mdc](mdc:.cursor/rules/project-structure-templates.mdc)
+- **Testing and Validation**: [testing-and-validation.mdc](mdc:.cursor/rules/testing-and-validation.mdc)
+- **Documentation Standards**: [documentation-and-examples.mdc](mdc:.cursor/rules/documentation-and-examples.mdc)
+- **Git and Version Control**: [git-and-version-control.mdc](mdc:.cursor/rules/git-and-version-control.mdc)
+
+## Next Steps
+
+1. **Review Legacy Content**: Check if any important information from `.cursorrules/tasks.md` needs to be preserved
+2. **Create Issues**: Convert any TODO items or feature requests to GitHub issues
+3. **Update Documentation**: Move relevant development notes to appropriate documentation
+4. **Clean Up**: Remove the legacy directory once migration is complete
+
+## Migration Checklist
+
+- [ ] Review `.cursorrules/tasks.md` for important content
+- [ ] Extract requirements and create GitHub issues
+- [ ] Move development notes to documentation
+- [ ] Update package README if needed
+- [ ] Remove legacy `.cursorrules/` directory
+- [ ] Update `.gitignore` to exclude legacy format
+- [ ] Verify new rules are working correctly
+
+## Reference Files
+
+Legacy content: [.cursorrules/tasks.md](mdc:.cursorrules/tasks.md)

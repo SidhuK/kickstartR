@@ -1,0 +1,104 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project Structure Templates
+
+This rule provides templates and guidance for the standardized project structures that kickstartR creates.
+
+## Standard Directory Structure
+
+When `initialize_project()` is called, it creates this structure:
+
+```
+ProjectName/
+├── 01_data/
+│   ├── 01_raw/           # Original, immutable data
+│   ├── 02_processed/     # Cleaned, transformed data
+│   └── 03_external/      # External data sources
+├── 02_scripts/           # R scripts and analysis code
+│   └── 00_main_script.R  # Main analysis script template
+├── 03_output/            # All analysis outputs
+│   ├── 01_figures/       # Generated plots and figures
+│   ├── 02_tables/        # Generated tables and summaries
+│   └── 03_reports_rendered/ # Rendered reports (HTML, PDF)
+├── 04_models/            # Saved model objects (optional)
+├── 05_notebooks/         # R Markdown, Jupyter notebooks (optional)
+├── README.md             # Project documentation
+├── .gitignore            # Git ignore rules
+├── .here                 # For use with the 'here' package
+└── ProjectName.Rproj     # RStudio project file
+```
+
+## Template Content Guidelines
+
+### README.md Template
+- Include project title and description
+- Document the directory structure
+- Provide setup instructions
+- Include usage examples
+- Add contact information
+
+### .gitignore Template
+Essential patterns for R projects:
+```
+# R specific
+.Rproj.user
+.Rhistory
+.RData
+.Renviron
+
+# Output files
+03_output/
+
+# Models (often large)
+04_models/
+
+# OS specific
+.DS_Store
+Thumbs.db
+```
+
+### Main Script Template
+The `00_main_script.R` should include:
+- Library loading section
+- Data loading with `here()` package usage
+- Data processing pipeline
+- Analysis/modeling section
+- Output generation (figures, tables)
+- Clear comments and structure
+
+### RStudio Project File
+Standard .Rproj configuration:
+- Enable code indexing
+- Use spaces for tabs (2 spaces)
+- Restore workspace: Default
+- Save workspace: Default
+
+## Function Parameters
+
+When working with `initialize_project()`, consider these parameters:
+
+- `project_name`: Required string, will be the main directory name
+- `path`: Where to create the project (default: current directory)
+- `overwrite`: Boolean to overwrite existing directories (use with caution)
+- `create_rproj`: Boolean to create RStudio project file
+- `include_models`: Boolean to include 04_models/ directory
+- `include_notebooks`: Boolean to include 05_notebooks/ directory
+
+## Best Practices for Template Generation
+
+1. **Flexible Templates**: Make templates customizable based on project type
+2. **Sensible Defaults**: Provide good default content that users can modify
+3. **Documentation**: Include clear comments in generated files
+4. **Path Management**: Use relative paths and recommend the `here` package
+5. **Git Integration**: Include sensible .gitignore patterns
+6. **Extensibility**: Allow users to add custom directories or files
+
+## Template File References
+
+Reference these files when working on template generation:
+- Main function: [R/initialize_project.R](mdc:R/initialize_project.R)
+- Package description: [DESCRIPTION](mdc:DESCRIPTION)
+- Example README: [README.md](mdc:README.md)

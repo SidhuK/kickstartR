@@ -1,0 +1,279 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Git and Version Control Best Practices
+
+Guidelines for version control in R package development.
+
+## Repository Structure
+
+### Essential Files
+
+- `.gitignore`: Exclude build artifacts and generated files
+- `.Rbuildignore`: Exclude files from package builds
+- `DESCRIPTION`: Package metadata with version information
+- `NEWS.md`: Version history and changelog
+
+### Git Ignore Patterns for R Packages
+
+```gitignore
+# R specific files
+.Rproj.user
+.Rhistory
+.RData
+.Renviron
+.Rprofile.user
+
+# Package build artifacts
+/*.tar.gz
+/*.Rcheck/
+/man/*.Rd  # Only if using roxygen2
+/NAMESPACE  # Only if using roxygen2
+
+# Documentation builds
+/docs/
+/pkgdown/
+
+# IDE files
+.vscode/
+*.sublime-*
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
+# R package specific
+src/*.o
+src/*.so
+src/*.dll
+```
+
+### R Build Ignore Patterns
+
+The `.Rbuildignore` should exclude:
+
+```
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^LICENSE\.md$
+^\.github$
+^docs$
+^_pkgdown\.yml$
+^\.cursorrules$
+^\.cursor$
+^cran-comments\.md$
+```
+
+## Version Management
+
+### Semantic Versioning
+
+Follow semantic versioning (MAJOR.MINOR.PATCH):
+- **MAJOR**: Incompatible API changes
+- **MINOR**: New functionality (backward compatible)
+- **PATCH**: Bug fixes (backward compatible)
+
+### Version Updates in DESCRIPTION
+
+```r
+# Update version in DESCRIPTION
+usethis::use_version("patch")  # For bug fixes
+usethis::use_version("minor")  # For new features
+usethis::use_version("major")  # For breaking changes
+```
+
+### Changelog Management
+
+Maintain a `NEWS.md` file:
+
+```markdown
+# kickstartR 0.1.0
+
+## New Features
+
+* Initial release of kickstartR package
+* Added `initialize_project()` function for creating standardized project structures
+* Support for optional models and notebooks directories
+* Automatic generation of README.md, .gitignore, and .Rproj files
+
+## Bug Fixes
+
+* None in initial release
+
+## Documentation
+
+* Added comprehensive README with examples
+* Created pkgdown website
+* Added vignettes for getting started
+```
+
+## Branching Strategy
+
+### Main Branches
+
+- `main`: Production-ready code
+- `develop`: Integration branch for features
+
+### Feature Development
+
+1. Create feature branches from `develop`
+2. Use descriptive branch names: `feature/enhance-template-generation`
+3. Make focused commits with clear messages
+4. Submit pull requests to `develop`
+
+### Release Process
+
+1. Create release branch from `develop`
+2. Update version numbers and documentation
+3. Test thoroughly
+4. Merge to `main` and tag release
+5. Merge back to `develop`
+
+## Commit Message Standards
+
+### Format
+
+```
+type(scope): subject
+
+body
+
+footer
+```
+
+### Types
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (no logic changes)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
+
+### Examples
+
+```
+feat(init): add option to exclude specific directories
+
+Added include_models and include_notebooks parameters to 
+initialize_project() function to allow users to customize
+the generated project structure.
+
+Closes #15
+```
+
+```
+fix(templates): correct .gitignore pattern for output files
+
+Fixed issue where output files were not properly ignored
+in generated .gitignore templates.
+
+Fixes #23
+```
+
+## GitHub Integration
+
+### Issue Templates
+
+Create `.github/ISSUE_TEMPLATE/` with:
+- Bug report template
+- Feature request template
+- Documentation improvement template
+
+### Pull Request Template
+
+Create `.github/pull_request_template.md`:
+
+```markdown
+## Description
+Brief description of changes
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Performance improvement
+
+## Testing
+- [ ] Tests pass locally
+- [ ] Added new tests for changes
+- [ ] Updated documentation
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] No new warnings in R CMD check
+```
+
+### GitHub Actions
+
+Set up automated checks:
+
+```yaml
+# .github/workflows/R-CMD-check.yaml
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - name: Install dependencies
+        run: |
+          install.packages(c("devtools", "testthat"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Check package
+        run: devtools::check()
+        shell: Rscript {0}
+```
+
+## Package Release Workflow
+
+1. **Pre-release checks**
+   ```r
+   devtools::check()        # R CMD check
+   devtools::test()         # Run tests
+   spelling::spell_check_package()  # Check spelling
+   ```
+
+2. **Update documentation**
+   ```r
+   devtools::document()     # Update man pages
+   pkgdown::build_site()    # Update website
+   ```
+
+3. **Version management**
+   ```r
+   usethis::use_version()   # Bump version
+   ```
+
+4. **Create release**
+   - Tag the release in Git
+   - Create GitHub release with release notes
+   - Submit to CRAN (if applicable)
+
+## Reference Files
+
+Key files for version control:
+- Git ignore: [.gitignore](mdc:.gitignore)
+- Build ignore: [.Rbuildignore](mdc:.Rbuildignore)
+- Package metadata: [DESCRIPTION](mdc:DESCRIPTION)
+- Changelog: [NEWS.md](mdc:NEWS.md)

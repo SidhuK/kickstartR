@@ -1,0 +1,176 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Testing and Validation Standards
+
+Comprehensive testing guidelines for the kickstartR package.
+
+## Testing Framework
+
+Use the testthat framework for all testing:
+
+```r
+# Required test structure
+tests/
+├── testthat/
+│   ├── test-initialize_project.R
+│   └── helper-test_utils.R  # Optional helper functions
+└── testthat.R  # Test runner
+```
+
+## Test Categories
+
+### Unit Tests for initialize_project()
+
+1. **Input Validation Tests**
+   - Test with invalid project names (empty, NULL, non-character)
+   - Test with invalid paths
+   - Test parameter combinations
+
+2. **Directory Creation Tests**
+   - Verify all expected directories are created
+   - Test optional directory inclusion/exclusion
+   - Test overwrite functionality
+   - Test path handling (relative/absolute)
+
+3. **File Generation Tests**
+   - Verify README.md content and structure
+   - Verify .gitignore content
+   - Verify main script template
+   - Verify .Rproj file creation
+
+4. **Error Handling Tests**
+   - Test behavior when directory already exists
+   - Test insufficient permissions
+   - Test invalid file system operations
+
+### Integration Tests
+
+1. **Full Project Creation**
+   - Create complete project structure
+   - Verify all components work together
+   - Test with different parameter combinations
+
+2. **RStudio Integration**
+   - Verify .Rproj file validity
+   - Test project opening in RStudio (if possible)
+
+### Edge Case Tests
+
+1. **Special Characters**
+   - Project names with spaces, hyphens, underscores
+   - Unicode characters in project names
+   - Very long project names
+
+2. **File System Edge Cases**
+   - Deep directory structures
+   - Different operating systems (Windows/macOS/Linux paths)
+   - Network drives or special mount points
+
+## Test Utilities and Helpers
+
+Create helper functions for common test operations:
+
+```r
+# Helper function to create temporary test directory
+create_temp_test_dir <- function() {
+  temp_dir <- tempfile()
+  dir.create(temp_dir)
+  temp_dir
+}
+
+# Helper function to clean up test projects
+cleanup_test_project <- function(project_path) {
+  if (dir.exists(project_path)) {
+    unlink(project_path, recursive = TRUE, force = TRUE)
+  }
+}
+
+# Helper function to verify directory structure
+verify_project_structure <- function(project_path, include_models = TRUE, include_notebooks = TRUE) {
+  expected_dirs <- c(
+    "01_data", "01_data/01_raw", "01_data/02_processed", "01_data/03_external",
+    "02_scripts", "03_output", "03_output/01_figures", 
+    "03_output/02_tables", "03_output/03_reports_rendered"
+  )
+  
+  if (include_models) expected_dirs <- c(expected_dirs, "04_models")
+  if (include_notebooks) expected_dirs <- c(expected_dirs, "05_notebooks")
+  
+  for (dir in expected_dirs) {
+    expect_true(dir.exists(file.path(project_path, dir)))
+  }
+}
+```
+
+## Test Data Management
+
+- Use `tempdir()` for all test projects to avoid cluttering file system
+- Always clean up test projects in teardown
+- Use `withr::with_tempdir()` for isolated test environments
+- Never create test files in the user's actual directories
+
+## Mock Testing
+
+For functions that interact with the file system:
+
+```r
+# Mock file system operations when needed
+test_that("project creation with mocked file system", {
+  with_mocked_bindings(
+    dir.create = function(...) TRUE,
+    writeLines = function(...) NULL,
+    {
+      # Test logic here
+    }
+  )
+})
+```
+
+## Test Organization
+
+1. **One test file per R source file**
+   - `test-initialize_project.R` for `R/initialize_project.R`
+
+2. **Group related tests**
+   - Use `describe()` blocks for logical grouping
+   - Use meaningful test descriptions
+
+3. **Test naming convention**
+   - Use descriptive names: `"creates all required directories"`
+   - Include edge cases: `"handles existing directory without overwrite"`
+
+## Coverage Goals
+
+- Aim for 90%+ code coverage
+- Cover all exported functions completely
+- Test all conditional branches
+- Test all error conditions
+
+## Performance Testing
+
+For functions that create many files/directories:
+
+```r
+test_that("project creation is reasonably fast", {
+  temp_dir <- tempdir()
+  start_time <- Sys.time()
+  
+  initialize_project("TestProject", path = temp_dir)
+  
+  end_time <- Sys.time()
+  duration <- as.numeric(end_time - start_time, units = "secs")
+  
+  expect_lt(duration, 5) # Should complete within 5 seconds
+  
+  cleanup_test_project(file.path(temp_dir, "TestProject"))
+})
+```
+
+## Reference Files
+
+Key files for testing context:
+- Main function: [R/initialize_project.R](mdc:R/initialize_project.R)
+- Package description: [DESCRIPTION](mdc:DESCRIPTION)
