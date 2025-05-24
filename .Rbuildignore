@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^tasks\.md$
 ^README\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

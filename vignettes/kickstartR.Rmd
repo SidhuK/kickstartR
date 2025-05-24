@@ -1,0 +1,306 @@
+---
+title: "Getting Started with kickstartR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with kickstartR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# Introduction
+
+The `kickstartR` package helps you quickly initialize new R analysis projects with a standardized, organized directory structure and boilerplate files. This vignette will walk you through the main functionality and show you how to get started with creating well-organized R projects.
+
+## Why use kickstartR?
+
+When starting a new data analysis project, you often face the same organizational challenges:
+
+- Where should I put my raw data?
+- How should I organize my R scripts?
+- Where should outputs like plots and tables go?
+- What should I include in my `.gitignore` file?
+- How can I make my project reproducible?
+
+`kickstartR` solves these problems by providing a standardized project structure that follows R community best practices.
+
+## Installation
+
+You can install kickstartR from GitHub:
+
+```{r eval=FALSE}
+# Install devtools if you haven't already
+install.packages("devtools")
+
+# Install kickstartR from GitHub
+devtools::install_github("SidhuK/kickstartR")
+```
+
+```{r setup}
+library(kickstartR)
+```
+
+## Basic Usage
+
+The main function in kickstartR is `initialize_project()`. Let's create a simple project:
+
+```{r eval=FALSE}
+# Create a new project in the current directory
+initialize_project("MyAnalysisProject")
+```
+
+This creates a directory structure like this:
+
+```
+MyAnalysisProject/
+├── 01_data/
+│   ├── 01_raw/           # Original, immutable data
+│   ├── 02_processed/     # Cleaned, transformed data
+│   └── 03_external/      # External data sources
+├── 02_scripts/           # R scripts and analysis code
+│   └── 00_main_script.R  # Main analysis script template
+├── 03_output/            # All analysis outputs
+│   ├── 01_figures/       # Generated plots and figures
+│   ├── 02_tables/        # Generated tables and summaries
+│   └── 03_reports_rendered/ # Rendered reports (HTML, PDF)
+├── 04_models/            # Saved model objects
+├── 05_notebooks/         # R Markdown, Jupyter notebooks
+├── README.md             # Project documentation
+├── .gitignore            # Git ignore rules
+├── .here                 # For use with the 'here' package
+└── MyAnalysisProject.Rproj # RStudio project file
+```
+
+## Project Structure Explained
+
+### Data Organization
+
+The `01_data/` folder is organized into three subfolders:
+
+- **`01_raw/`**: Store your original, immutable data files here. Never modify these!
+- **`02_processed/`**: Save cleaned, transformed, or merged datasets here
+- **`03_external/`**: Put data from external APIs, databases, or other sources here
+
+### Scripts and Code
+
+The `02_scripts/` folder contains your analysis code. The package creates a starter script `00_main_script.R` with best practice templates.
+
+### Outputs
+
+The `03_output/` folder is organized by output type:
+
+- **`01_figures/`**: Save plots, charts, and visualizations
+- **`02_tables/`**: Export summary tables, model results as CSV/Excel
+- **`03_reports_rendered/`**: Store rendered HTML, PDF reports from R Markdown
+
+### Models and Notebooks
+
+- **`04_models/`**: Save fitted model objects (`.rds`, `.pkl` files)
+- **`05_notebooks/`**: R Markdown files for exploratory analysis and reporting
+
+## Customization Options
+
+You can customize the project structure using various parameters:
+
+### Specify a Different Location
+
+```{r eval=FALSE}
+# Create project in a specific directory
+initialize_project("MyProject", path = "~/Documents/R_Projects")
+```
+
+### Exclude Certain Folders
+
+```{r eval=FALSE}
+# Create a simpler project without models and notebooks folders
+initialize_project("SimpleProject",
+                   include_models = FALSE,
+                   include_notebooks = FALSE)
+```
+
+### Skip RStudio Project File
+
+```{r eval=FALSE}
+# Don't create .Rproj file (if you're not using RStudio)
+initialize_project("MyProject", create_rproj = FALSE)
+```
+
+### Overwrite Existing Projects
+
+```{r eval=FALSE}
+# Overwrite an existing directory (use with caution!)
+initialize_project("ExistingProject", overwrite = TRUE)
+```
+
+## Recommended Workflow
+
+Here's how to use kickstartR in your typical analysis workflow:
+
+### 1. Create Your Project
+
+```{r eval=FALSE}
+initialize_project("CustomerAnalysis2024")
+```
+
+### 2. Open in RStudio
+
+Open the `.Rproj` file to set up your RStudio environment with the correct working directory.
+
+### 3. Add Your Data
+
+Place your raw data files in `01_data/01_raw/`. For example:
+
+- `customer_data.csv`
+- `sales_data.xlsx`
+- `survey_responses.json`
+
+### 4. Start Analyzing
+
+Edit `02_scripts/00_main_script.R` or create new scripts. The template includes helpful patterns:
+
+```r
+# Load libraries
+library(tidyverse)
+library(here)
+
+# Set base directory
+here::i_am("02_scripts/00_main_script.R")
+
+# Load data
+raw_data <- read.csv(here::here("01_data", "01_raw", "customer_data.csv"))
+
+# Process data
+processed_data <- raw_data %>%
+  filter(!is.na(important_column)) %>%
+  mutate(new_column = old_column * 2)
+
+# Save processed data
+write.csv(processed_data,
+          here::here("01_data", "02_processed", "cleaned_customers.csv"),
+          row.names = FALSE)
+
+# Create visualizations
+my_plot <- ggplot(processed_data, aes(x = x_var, y = y_var)) +
+  geom_point() +
+  theme_minimal()
+
+# Save outputs
+ggsave(here::here("03_output", "01_figures", "customer_analysis.png"),
+       my_plot, width = 10, height = 6, dpi = 300)
+```
+
+### 5. Use the `here` Package
+
+The package creates a `.here` file to work seamlessly with the [`here` package](https://here.r-lib.org/), which provides robust file path management:
+
+```{r eval=FALSE}
+library(here)
+
+# Always works regardless of working directory
+data <- read.csv(here::here("01_data", "01_raw", "mydata.csv"))
+ggsave(here::here("03_output", "01_figures", "plot.png"), my_plot)
+```
+
+## Best Practices
+
+The project structure created by kickstartR embodies several best practices:
+
+### 1. Separate Raw and Processed Data
+
+- Keep original data immutable in `01_data/01_raw/`
+- Save all processed/cleaned data to `01_data/02_processed/`
+- This makes your workflow reproducible and prevents data loss
+
+### 2. Organize Outputs by Type
+
+- Separate figures, tables, and reports for easy navigation
+- Use descriptive filenames with dates: `customer_analysis_2024-01-15.png`
+
+### 3. Use Relative Paths
+
+- The `.here` file enables robust path management
+- Scripts work on any computer without path modification
+
+### 4. Version Control Ready
+
+- Includes sensible `.gitignore` patterns for R projects
+- Excludes large files (outputs, models) by default
+- Tracks code and documentation, not generated files
+
+### 5. Self-Documenting Structure
+
+- Numbered folders indicate typical workflow order
+- Clear folder names explain their purpose
+- README template provides project overview
+
+## Advanced Tips
+
+### Working with Teams
+
+When sharing projects created with kickstartR:
+
+1. **Git Repository**: Initialize git and push to GitHub/GitLab
+2. **Dependencies**: Document required packages in your README
+3. **Data Sharing**: Consider using `pins`, `targets`, or cloud storage for large datasets
+4. **Environment**: Use `renv` for package version management
+
+### Integration with Other Tools
+
+kickstartR works well with other R project tools:
+
+- **`targets`**: Put your `_targets.R` file in the project root
+- **`renv`**: Initialize `renv` after creating the project structure
+- **`testthat`**: Add tests to a `tests/` folder
+- **`pkgdown`**: If converting to a package, the structure translates well
+
+## Troubleshooting
+
+### Common Issues
+
+**Error: Directory already exists**
+
+```{r eval=FALSE}
+# Use overwrite = TRUE, but be careful!
+initialize_project("MyProject", overwrite = TRUE)
+```
+
+**Want different folder names?**
+
+Currently, kickstartR uses a fixed naming convention. If you need different folder names, you can:
+
+1. Create the project with kickstartR
+2. Manually rename folders as needed
+3. Update paths in your scripts accordingly
+
+**RStudio doesn't recognize the project?**
+
+Make sure you're opening the `.Rproj` file, not just the folder. The `.Rproj` file tells RStudio this is a project.
+
+## What's Next?
+
+After creating your project structure with kickstartR:
+
+1. **Explore your data** in `05_notebooks/` with R Markdown
+2. **Develop your analysis** in `02_scripts/`
+3. **Document your process** by updating the README
+4. **Share your work** by pushing to GitHub and sharing the repository
+
+The standardized structure makes it easy for others (including future you!) to understand and reproduce your work.
+
+## Getting Help
+
+If you encounter any issues or have suggestions:
+
+- Check the [function documentation](../reference/initialize_project.html)
+- Look at the [GitHub repository](https://github.com/SidhuK/kickstartR)
+- Open an issue for bugs or feature requests
+
+Happy analyzing! 🚀

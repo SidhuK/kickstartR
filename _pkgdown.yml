@@ -1,0 +1,41 @@
+url: https://sidhuk.github.io/kickstartR
+
+template:
+  bootstrap: 5
+
+home:
+  title: "kickstartR • R Project Boilerplate Generator"
+  description: >
+    Create standardized, organized R analysis projects with proper 
+    directory structures and boilerplate files following best practices.
+
+navbar:
+  title: "kickstartR"
+  left:
+    - text: "Get Started"
+      href: articles/kickstartR.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Changelog"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/sidhuk/kickstartR
+      aria-label: "GitHub repository"
+
+reference:
+  - title: "Main Functions"
+    desc: "Core functionality for creating R project structures"
+    contents:
+      - initialize_project
+
+articles:
+  - title: "Getting Started"
+    navbar: ~
+    desc: "Learn how to use kickstartR"
+    contents:
+      - kickstartR
+
+authors:
+  kickstartR Author:
+    href: https://github.com/sidhuk

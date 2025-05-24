@@ -17,6 +17,11 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
+URL: https://your-username.github.io/kickstartR/, https://github.com/your-username/kickstartR
+BugReports: https://github.com/your-username/kickstartR/issues
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
+VignetteBuilder: knitr
