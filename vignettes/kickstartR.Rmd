@@ -41,7 +41,7 @@ You can install kickstartR from GitHub:
 install.packages("devtools")
 
 # Install kickstartR from GitHub
-devtools::install_github("SidhuK/kickstartR")
+devtools::install_github("sidhuk/kickstartR")
 ```
 
 ```{r setup}
@@ -300,7 +300,7 @@ The standardized structure makes it easy for others (including future you!) to u
 If you encounter any issues or have suggestions:
 
 - Check the [function documentation](../reference/initialize_project.html)
-- Look at the [GitHub repository](https://github.com/SidhuK/kickstartR)
+- Look at the [GitHub repository](https://github.com/sidhuk/kickstartR)
 - Open an issue for bugs or feature requests
 
 Happy analyzing! 🚀

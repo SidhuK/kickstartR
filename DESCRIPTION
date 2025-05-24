@@ -4,8 +4,8 @@ Title: Create Project Boilerplate Structures for R Analysis Projects
 Version: 0.1.0
 Authors@R: c(
     person(
-      "kickstartR", "Author",
-      email = "author@example.com",
+      "Karat", "Sidhu",
+      email = "karatsidhu@gmail.com",
       role = c("aut", "cre")
     )
   )
@@ -17,8 +17,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
-URL: https://your-username.github.io/kickstartR/, https://github.com/your-username/kickstartR
-BugReports: https://github.com/your-username/kickstartR/issues
+URL: https://sidhuk.github.io/kickstartR/, https://github.com/sidhuk/kickstartR
+BugReports: https://github.com/sidhuk/kickstartR/issues
 Suggests:
     testthat (>= 3.0.0),
     knitr,

@@ -23,7 +23,7 @@ You can install the development version of kickstartR from GitHub:
 install.packages("devtools")
 
 # Install kickstartR from GitHub
-devtools::install_github("SidhuK/kickstartR")
+devtools::install_github("sidhuk/kickstartR")
 ```
 
 ## Quick Start
@@ -131,7 +131,7 @@ The project structure created by `kickstartR` follows these best practices:
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
+Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests at https://github.com/sidhuk/kickstartR.
 
 ## License
 
