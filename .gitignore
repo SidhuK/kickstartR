@@ -2,5 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-tasks.md
 inst/doc
+tasks.md
+.DS_Store
+.cursorrules
