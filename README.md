@@ -1,4 +1,4 @@
-# kickstartR
+# kickstartR <img src="man/figures/logo.png" align="right" height="120" alt="kickstartR logo" />
 
 > Create Project Boilerplate Structures for R Analysis Projects
 

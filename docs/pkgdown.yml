@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   kickstartR: kickstartR.html
-last_built: 2025-05-24T04:59Z
+last_built: 2025-05-24T09:32Z
 urls:
   reference: https://sidhuk.github.io/kickstartR/reference
   article: https://sidhuk.github.io/kickstartR/articles
