@@ -1,0 +1,15 @@
+/* Custom styles for {{PROJECT_NAME}} */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.well {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+h4 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}

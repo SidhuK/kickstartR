@@ -1,7 +1,7 @@
 Package: kickstartR
 Type: Package
 Title: Create Project Boilerplate Structures for R Analysis Projects
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person(
       "Karat", "Sidhu",
@@ -10,18 +10,25 @@ Authors@R: c(
     )
   )
 Description: A package to initialize R analysis projects with standardized 
-    directory structures and boilerplate files. Creates organized folder 
-    hierarchies for data, scripts, outputs, models, and notebooks, along with 
-    template files like README.md, .gitignore, and placeholder R scripts.
+    directory structures and boilerplate files. Supports multiple project 
+    templates (analysis, Shiny, targets pipelines), dependency management 
+    with renv, automatic license generation, and an interactive setup wizard.
+    Creates organized folder hierarchies for data, scripts, outputs, models, 
+    and notebooks, along with template files like README.md, .gitignore, 
+    and starter R scripts.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://sidhuk.github.io/kickstartR/, https://github.com/sidhuk/kickstartR
 BugReports: https://github.com/sidhuk/kickstartR/issues
 Suggests:
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    renv,
+    targets,
+    yaml,
+    rstudioapi
 Config/testthat/edition: 3
 VignetteBuilder: knitr

@@ -7,39 +7,99 @@
 initialize_project(
   project_name,
   path = ".",
+  template = "basic",
   overwrite = FALSE,
+  author = NULL,
+  license = NULL,
   create_rproj = TRUE,
   include_models = TRUE,
-  include_notebooks = TRUE
+  include_notebooks = TRUE,
+  include_renv = FALSE,
+  include_targets = FALSE,
+  custom_dirs = NULL,
+  gitignore_extras = NULL,
+  git_init = FALSE,
+  open_project = FALSE,
+  open_readme = FALSE
 )
 }
 \arguments{
-\item{project_name}{The name of the project. This will be the name of the main project directory.}
+\item{project_name}{The name of the project (required). This will be the
+name of the main project directory.}
 
-\item{path}{The path where the project directory should be created. Defaults to the current working directory.}
+\item{path}{The path where the project directory should be created.
+Defaults to the current working directory.}
 
-\item{overwrite}{Logical, if TRUE, and a directory with `project_name` already exists, it will be overwritten (use with caution). Defaults to FALSE.}
+\item{template}{Project template to use. One of "basic", "analysis",
+"shiny", "targets", or "minimal". See `available_templates()` for details.}
 
-\item{create_rproj}{Logical, if TRUE, creates an RStudio project file (.Rproj). Defaults to TRUE.}
+\item{overwrite}{If TRUE and a directory with `project_name` already exists,
+it will be overwritten (use with caution). Defaults to FALSE.}
 
-\item{include_models}{Logical, if TRUE, includes a 'models' folder. Defaults to TRUE.}
+\item{author}{Author name for project metadata and LICENSE file.
+Defaults to system username.}
 
-\item{include_notebooks}{Logical, if TRUE, includes a 'notebooks' or 'reports' folder. Defaults to TRUE.}
+\item{license}{License type for the project. One of "MIT", "GPL-3", "GPL-2",
+"CC-BY-4.0", "CC0", or NULL for no license. See `available_licenses()`.}
+
+\item{create_rproj}{If TRUE, creates an RStudio project file (.Rproj).
+Defaults to TRUE.}
+
+\item{include_models}{If TRUE and using "basic" template, includes a
+'04_models' folder. Defaults to TRUE.}
+
+\item{include_notebooks}{If TRUE and using "basic" template, includes a
+'05_notebooks' folder. Defaults to TRUE.}
+
+\item{include_renv}{If TRUE, initializes renv for dependency management.
+Requires the renv package. Defaults to FALSE.}
+
+\item{include_targets}{If TRUE, adds targets pipeline files (_targets.R and
+R/functions.R). Defaults to FALSE.}
+
+\item{custom_dirs}{Character vector of additional directories to create.}
+
+\item{gitignore_extras}{Character vector of additional patterns to add to
+.gitignore.}
+
+\item{git_init}{If TRUE, initializes a git repository. Defaults to FALSE.}
+
+\item{open_project}{If TRUE and in RStudio, opens the project after creation.
+Defaults to FALSE.}
+
+\item{open_readme}{If TRUE, opens README.md for editing after creation.
+Defaults to FALSE.}
 }
 \value{
 Invisibly returns the path to the created project directory.
 }
 \description{
-This function creates a standard directory structure for a new R project.
+Creates a standardized directory structure for a new R project with
+customizable templates, dependency management, and workflow tools.
 }
 \examples{
 \dontrun{
-# Create a project named "MyAnalysis" in the current directory
-# initialize_project("MyAnalysis")
+# Basic usage
+initialize_project("MyAnalysis")
 
-# Create a project in a specific path
-# temp_dir <- tempdir()
-# initialize_project("MyTestProject", path = temp_dir)
-# unlink(file.path(temp_dir, "MyTestProject"), recursive = TRUE) # Clean up
+# Use a template
+initialize_project("MyShinyApp", template = "shiny")
+
+# Full featured project
+initialize_project(
+  "DataProject",
+  template = "analysis",
+  author = "Jane Doe",
+  license = "MIT",
+  include_renv = TRUE,
+  git_init = TRUE
+)
+
+# Minimal project with custom directories
+initialize_project(
+  "QuickProject",
+  template = "minimal",
+  custom_dirs = c("docs", "references")
+)
 }
 }
